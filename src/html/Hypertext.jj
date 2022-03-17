@@ -1,0 +1,184 @@
+options {
+    STATIC = false;
+}
+PARSER_BEGIN(Hypertext)
+
+    public class Hypertext {
+        public static void main(String[] args) throws ParseException, TokenMgrError {
+            Hypertext parser = new Hypertext(System.in);
+            System.out.println(parser.create());
+        }
+
+        private static String stringifyStyle(String[] parameters) {
+            String res = "";
+            if(!parameters[0].isEmpty()) {
+                res += "style=\"color:" + parameters[0] + ";";
+                if(!parameters[1].isEmpty()) {
+                    res += "font-family:" + parameters[1] + ";";
+                }
+                res += "\" >";
+            }
+            if(!parameters[1].isEmpty()) {
+                res += "style=\"font-family:" + parameters[1] + ";\">";
+            }
+            res += parameters[2];
+            return res;
+        }
+    }
+PARSER_END(Hypertext)
+
+SKIP : {
+" " | "\n" | "\r" | "\t"
+}
+
+TOKEN : {
+    "ADD" | "IMAGE" | "WITH" | "SOURCE" | "HEADING" | "PARAGRAPH" | "LINK" | "AND" | "TEXT" | "COLOR" | "FONT" |
+    <QUOTE: "'" | "“" | "\""> |
+    <ALPHANUMERIC: ["0"-"9"] | ["a"-"z"] | ["A"-"Z"] | "/" | ":" | ".">
+}
+
+String create():
+    {
+        String html = "";
+        String lineParse;
+        String nextLine;
+     }
+    {
+        "ADD" lineParse = element() { html += lineParse; } ( { html += '\n'; } nextLine = create() { html += nextLine; }|<EOF> { return html; } )
+
+    }
+
+String element():
+    {
+        String tag;
+    }
+    {
+        ( tag = img() | tag = header() | tag = para() | tag = url() ) { return tag; }
+    }
+
+String img():
+    {
+        String tag = "<img src=\"";
+        String src;
+    }
+    {
+        "IMAGE" "WITH" "SOURCE" <QUOTE> src = sentence() <QUOTE> { tag += src + "\" />"; return tag; }
+    }
+
+String header():
+    {
+        String tag = "<h1 ";
+        String contents[];
+    }
+    {
+        "HEADING" contents = decoratedText()
+        {
+            tag += stringifyStyle(contents) + "</h1>";
+            return tag;
+        }
+    }
+
+String para():
+    {
+        String tag = "<p ";
+        String[] contents;
+    }
+    {
+        "PARAGRAPH" contents = decoratedText()
+        {
+            tag += stringifyStyle(contents) + "</p>";
+            return tag;
+        }
+    }
+
+String url():
+    {
+        String tag = "<a ";
+        String[] contents;
+    }
+    {
+        "LINK" contents = decoratedURL()
+        {
+            tag += "href=\"" + contents[3] + "\" ";
+            tag += stringifyStyle(contents) + "</a>";
+            return tag;
+        }
+    }
+
+String[] decoratedText():
+    {
+        String[] contents = {"","",""};
+        String text = "";
+        String color = "";
+        String font = "";
+        String[] details = {"","",""};
+    }
+    {
+        (LOOKAHEAD(2) text = text() { contents[2] = text; } |LOOKAHEAD(2)  color = color() { contents[0] = color; } | font = font() { contents[1] = font; })  (LOOKAHEAD(2) "AND" details = decoratedText() { for(int i = 0; i < 3; i++){ if(details[i] != "") { contents[i] = details[i]; } } })*
+        { return contents; }
+    }
+
+String[] decoratedURL():
+    {
+        String[] contents = {"","","",""};
+        String text = "";
+        String color = "";
+        String font = "";
+        String link = "";
+        String[] details = {"",""};
+    }
+    {
+        text = text() { contents[2] = text; } "AND" "WITH" "LINK" <QUOTE> link = sentence() { contents[3] = link; } <QUOTE> (details = decoration() { if(!details[0].isEmpty()) contents[0] = details[0]; if(!details[1].isEmpty()) contents[1] = details[1]; })*
+        { return contents; }
+    }
+
+String[] decoration():
+    {
+        String[] contents = {"",""};
+        String color = "";
+        String font = "";
+        String[] details = {"",""};
+    }
+    {
+        (LOOKAHEAD(2) color = color() { contents[0] = color; } | font = font() { contents[1] = font; }) (LOOKAHEAD(2) "AND" details = decoration() { if(!details[0].isEmpty()) contents[0] = details[0]; if(!details[1].isEmpty()) contents[1] = details[1]; })*
+        { return contents; }
+    }
+
+String text():
+    {
+        String text;
+    }
+    {
+        "WITH" "TEXT" <QUOTE> text = sentence() <QUOTE>
+        { return text; }
+    }
+
+String color():
+    {
+        String color;
+    }
+    {
+        "WITH" "COLOR" <QUOTE> color = sentence() <QUOTE>
+        { return color; }
+    }
+
+String font():
+    {
+        String font;
+    }
+    {
+        "WITH" "FONT" <QUOTE> font = sentence() <QUOTE>
+        { return font; }
+    }
+
+String sentence():
+    {
+        Token token;
+        String res = "";
+    }
+    {
+        (token = <ALPHANUMERIC> { res += token.image; })*
+        { return res; }
+    }
+
+
