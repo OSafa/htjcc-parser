@@ -13,9 +13,8 @@
                 if(!parameters[1].isEmpty()) {
                     res += "font-family:" + parameters[1] + ";";
                 }
-                res += "\" >";
-            }
-            if(!parameters[1].isEmpty()) {
+                res += "\">";
+            } else if(!parameters[1].isEmpty()) {
                 res += " style=\"font-family:" + parameters[1] + ";\">";
             } else {
                 res += ">";
@@ -39,7 +38,6 @@ html += nextLine;
       }
     case 0:{
       jj_consume_token(0);
-{if ("" != null) return html;}
       break;
       }
     default:
@@ -47,6 +45,7 @@ html += nextLine;
       jj_consume_token(-1);
       throw new ParseException();
     }
+{if ("" != null) return html;}
     throw new Error("Missing return statement in function");
 }
 
@@ -83,7 +82,7 @@ html += nextLine;
     jj_consume_token(7);
     jj_consume_token(8);
     src = sentence();
-tag += src.substring(1, src.length() - 1) + "\" />"; {if ("" != null) return tag;}
+tag += src.substring(1, src.length() - 1) + "\"/>"; {if ("" != null) return tag;}
     throw new Error("Missing return statement in function");
 }
 
@@ -96,7 +95,7 @@ tag += stringifyStyle(contents) + "</h1>";
     throw new Error("Missing return statement in function");
 }
 
-  final public String para() throws ParseException {String tag = "<p ";
+  final public String para() throws ParseException {String tag = "<p";
         String[] contents;
     jj_consume_token(10);
     contents = decoratedText();
@@ -109,7 +108,7 @@ tag += stringifyStyle(contents) + "</p>";
         String[] contents;
     jj_consume_token(11);
     contents = decoratedURL();
-tag += "href=\"" + contents[3] + "\" ";
+tag += "href=\"" + contents[3] + "\"";
             tag += stringifyStyle(contents) + "</a>";
             {if ("" != null) return tag;}
     throw new Error("Missing return statement in function");
@@ -170,7 +169,7 @@ contents[3] = link.substring(1, link.length() - 1);
     label_2:
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
-      case 7:{
+      case 12:{
         ;
         break;
         }
@@ -178,6 +177,7 @@ contents[3] = link.substring(1, link.length() - 1);
         jj_la1[3] = jj_gen;
         break label_2;
       }
+      jj_consume_token(12);
       details = decoration();
 if(!details[0].isEmpty()) contents[0] = details[0]; if(!details[1].isEmpty()) contents[1] = details[1];
     }
@@ -188,7 +188,6 @@ if(!details[0].isEmpty()) contents[0] = details[0]; if(!details[1].isEmpty()) co
   final public String[] decoration() throws ParseException {String[] contents = {"",""};
         String color = "";
         String font = "";
-        String[] details = {"",""};
     if (jj_2_4(2)) {
       color = color();
 contents[0] = color;
@@ -204,17 +203,6 @@ contents[1] = font;
         jj_consume_token(-1);
         throw new ParseException();
       }
-    }
-    label_3:
-    while (true) {
-      if (jj_2_5(2)) {
-        ;
-      } else {
-        break label_3;
-      }
-      jj_consume_token(12);
-      details = decoration();
-if(!details[0].isEmpty()) contents[0] = details[0]; if(!details[1].isEmpty()) contents[1] = details[1];
     }
 {if ("" != null) return contents;}
     throw new Error("Missing return statement in function");
@@ -283,57 +271,31 @@ res = token.image; {if ("" != null) return res;}
     finally { jj_save(3, xla); }
   }
 
-  private boolean jj_2_5(int xla)
+  private boolean jj_3_2()
  {
-    jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return (!jj_3_5()); }
-    catch(LookaheadSuccess ls) { return true; }
-    finally { jj_save(4, xla); }
-  }
-
-  private boolean jj_3_5()
- {
-    if (jj_scan_token(12)) return true;
-    if (jj_3R_decoration_144_9_7()) return true;
+    if (jj_3R_color_161_9_4()) return true;
     return false;
   }
 
-  private boolean jj_3R_font_171_9_10()
+  private boolean jj_3R_font_170_9_7()
  {
     if (jj_scan_token(7)) return true;
     return false;
   }
 
-  private boolean jj_3_2()
- {
-    if (jj_3R_color_162_9_5()) return true;
-    return false;
-  }
-
   private boolean jj_3_4()
  {
-    if (jj_3R_color_162_9_5()) return true;
-    return false;
-  }
-
-  private boolean jj_3R_decoration_144_9_7()
- {
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_3_4()) {
-    jj_scanpos = xsp;
-    if (jj_3R_decoration_144_66_9()) return true;
-    }
+    if (jj_3R_color_161_9_4()) return true;
     return false;
   }
 
   private boolean jj_3_1()
  {
-    if (jj_3R_text_153_9_4()) return true;
+    if (jj_3R_text_152_9_3()) return true;
     return false;
   }
 
-  private boolean jj_3R_decoratedText_118_9_6()
+  private boolean jj_3R_decoratedText_118_9_5()
  {
     Token xsp;
     xsp = jj_scanpos;
@@ -341,39 +303,33 @@ res = token.image; {if ("" != null) return res;}
     jj_scanpos = xsp;
     if (jj_3_2()) {
     jj_scanpos = xsp;
-    if (jj_3R_decoratedText_118_119_8()) return true;
+    if (jj_3R_decoratedText_118_119_6()) return true;
     }
     }
     return false;
   }
 
-  private boolean jj_3R_color_162_9_5()
+  private boolean jj_3R_color_161_9_4()
  {
     if (jj_scan_token(7)) return true;
     if (jj_scan_token(14)) return true;
     return false;
   }
 
-  private boolean jj_3R_decoratedText_118_119_8()
+  private boolean jj_3R_decoratedText_118_119_6()
  {
-    if (jj_3R_font_171_9_10()) return true;
-    return false;
-  }
-
-  private boolean jj_3R_decoration_144_66_9()
- {
-    if (jj_3R_font_171_9_10()) return true;
+    if (jj_3R_font_170_9_7()) return true;
     return false;
   }
 
   private boolean jj_3_3()
  {
     if (jj_scan_token(12)) return true;
-    if (jj_3R_decoratedText_118_9_6()) return true;
+    if (jj_3R_decoratedText_118_9_5()) return true;
     return false;
   }
 
-  private boolean jj_3R_text_153_9_4()
+  private boolean jj_3R_text_152_9_3()
  {
     if (jj_scan_token(7)) return true;
     if (jj_scan_token(13)) return true;
@@ -397,9 +353,9 @@ res = token.image; {if ("" != null) return res;}
 	   jj_la1_init_0();
 	}
 	private static void jj_la1_init_0() {
-	   jj_la1_0 = new int[] {0x21,0xe40,0x80,0x80,0x80,};
+	   jj_la1_0 = new int[] {0x21,0xe40,0x80,0x1000,0x80,};
 	}
-  final private JJCalls[] jj_2_rtns = new JJCalls[5];
+  final private JJCalls[] jj_2_rtns = new JJCalls[4];
   private boolean jj_rescan = false;
   private int jj_gc = 0;
 
@@ -658,7 +614,7 @@ res = token.image; {if ("" != null) return res;}
 
   private void jj_rescan_token() {
 	 jj_rescan = true;
-	 for (int i = 0; i < 5; i++) {
+	 for (int i = 0; i < 4; i++) {
 	   try {
 		 JJCalls p = jj_2_rtns[i];
 
@@ -670,7 +626,6 @@ res = token.image; {if ("" != null) return res;}
 			   case 1: jj_3_2(); break;
 			   case 2: jj_3_3(); break;
 			   case 3: jj_3_4(); break;
-			   case 4: jj_3_5(); break;
 			 }
 		   }
 		   p = p.next;

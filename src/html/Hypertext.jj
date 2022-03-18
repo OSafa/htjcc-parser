@@ -16,9 +16,8 @@ PARSER_BEGIN(Hypertext)
                 if(!parameters[1].isEmpty()) {
                     res += "font-family:" + parameters[1] + ";";
                 }
-                res += "\" >";
-            }
-            if(!parameters[1].isEmpty()) {
+                res += "\">";
+            } else if(!parameters[1].isEmpty()) {
                 res += " style=\"font-family:" + parameters[1] + ";\">";
             } else {
                 res += ">";
@@ -35,7 +34,7 @@ SKIP : {
 
 TOKEN : {
     "ADD" | "IMAGE" | "WITH" | "SOURCE" | "HEADING" | "PARAGRAPH" | "LINK" | "AND" | "TEXT" | "COLOR" | "FONT" |
-    <SENTENCE: ("'" | "“" | "\"") (["0"-"9", "a"-"z", "A"-"Z", "/", ":", "."]) ((" "| "\n" | "\t" | "\r")* (["0"-"9", "a"-"z", "A"-"Z", "/", ":", "."]))* ("'" | "“" | "\"")>
+    <SENTENCE: ("'" | "“" | "\"") (["0"-"9", "a"-"z", "A"-"Z", "/", ":", ".", "_"]) ((" "| "\n" | "\t" | "\r")* (["0"-"9", "a"-"z", "A"-"Z", "/", ":", ".", "_"]))* ("'" | "“" | "\"")>
 }
 
 String create():
@@ -45,7 +44,8 @@ String create():
         String nextLine;
      }
     {
-        "ADD" lineParse = element() { html += lineParse; } ( { html += '\n'; } nextLine = create() { html += nextLine; }|<EOF> { return html; } )
+        "ADD" lineParse = element() { html += lineParse; } ( { html += '\n'; } nextLine = create() { html += nextLine; }|<EOF>)
+        { return html; }
 
     }
 
@@ -63,7 +63,7 @@ String img():
         String src;
     }
     {
-        "IMAGE" "WITH" "SOURCE"  src = sentence()  { tag += src.substring(1, src.length() - 1) + "\" />"; return tag; }
+        "IMAGE" "WITH" "SOURCE"  src = sentence()  { tag += src.substring(1, src.length() - 1) + "\"/>"; return tag; }
     }
 
 String header():
@@ -81,7 +81,7 @@ String header():
 
 String para():
     {
-        String tag = "<p ";
+        String tag = "<p";
         String[] contents;
     }
     {
@@ -100,7 +100,7 @@ String url():
     {
         "LINK" contents = decoratedURL()
         {
-            tag += "href=\"" + contents[3] + "\" ";
+            tag += "href=\"" + contents[3] + "\"";
             tag += stringifyStyle(contents) + "</a>";
             return tag;
         }
@@ -129,7 +129,7 @@ String[] decoratedURL():
         String[] details = {"",""};
     }
     {
-        text = text() { contents[2] = text; } "AND" "WITH" "LINK"  link = sentence() { contents[3] = link.substring(1, link.length() - 1); }  (details = decoration() { if(!details[0].isEmpty()) contents[0] = details[0]; if(!details[1].isEmpty()) contents[1] = details[1]; })*
+        text = text() { contents[2] = text; } "AND" "WITH" "LINK"  link = sentence() { contents[3] = link.substring(1, link.length() - 1); }  ("AND" details = decoration() { if(!details[0].isEmpty()) contents[0] = details[0]; if(!details[1].isEmpty()) contents[1] = details[1]; })*
         { return contents; }
     }
 
@@ -138,10 +138,9 @@ String[] decoration():
         String[] contents = {"",""};
         String color = "";
         String font = "";
-        String[] details = {"",""};
     }
     {
-        (LOOKAHEAD(2) color = color() { contents[0] = color; } | font = font() { contents[1] = font; }) (LOOKAHEAD(2) "AND" details = decoration() { if(!details[0].isEmpty()) contents[0] = details[0]; if(!details[1].isEmpty()) contents[1] = details[1]; })*
+        (LOOKAHEAD(2) color = color() { contents[0] = color; } | font = font() { contents[1] = font; })
         { return contents; }
     }
 
