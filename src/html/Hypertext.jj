@@ -35,8 +35,7 @@ SKIP : {
 
 TOKEN : {
     "ADD" | "IMAGE" | "WITH" | "SOURCE" | "HEADING" | "PARAGRAPH" | "LINK" | "AND" | "TEXT" | "COLOR" | "FONT" |
-    <QUOTE: "'" | "“" | "\""> |
-    <ALPHANUMERIC: ["0"-"9"] | ["a"-"z"] | ["A"-"Z"] | "/" | ":" | ".">
+    <SENTENCE: ("'" | "“" | "\"") (["0"-"9", "a"-"z", "A"-"Z", "/", ":", "."]) ((" ")* (["0"-"9", "a"-"z", "A"-"Z", "/", ":", "."]))* ("'" | "“" | "\"")>
 }
 
 String create():
@@ -64,7 +63,7 @@ String img():
         String src;
     }
     {
-        "IMAGE" "WITH" "SOURCE" <QUOTE> src = sentence() <QUOTE> { tag += src + "\" />"; return tag; }
+        "IMAGE" "WITH" "SOURCE"  src = sentence()  { tag += src.substring(1, src.length() - 1) + "\" />"; return tag; }
     }
 
 String header():
@@ -116,7 +115,7 @@ String[] decoratedText():
         String[] details = {"","",""};
     }
     {
-        (LOOKAHEAD(2) text = text() { contents[2] = text; } |LOOKAHEAD(2)  color = color() { contents[0] = color; } | font = font() { contents[1] = font; })  (LOOKAHEAD(2) "AND" details = decoratedText() { for(int i = 0; i < 3; i++){ if(details[i] != "") { contents[i] = details[i]; } } })*
+        (LOOKAHEAD(2) text = text() { contents[2] = text; } |LOOKAHEAD(2)  color = color() { contents[0] = color; } | font = font() { contents[1] = font; })  (LOOKAHEAD(2) "AND" details = decoratedText() { for(int i = 0; i < 3; i++){ if(!details[i].isEmpty()) { contents[i] = details[i]; } } })*
         { return contents; }
     }
 
@@ -130,7 +129,7 @@ String[] decoratedURL():
         String[] details = {"",""};
     }
     {
-        text = text() { contents[2] = text; } "AND" "WITH" "LINK" <QUOTE> link = sentence() { contents[3] = link; } <QUOTE> (details = decoration() { if(!details[0].isEmpty()) contents[0] = details[0]; if(!details[1].isEmpty()) contents[1] = details[1]; })*
+        text = text() { contents[2] = text; } "AND" "WITH" "LINK"  link = sentence() { contents[3] = link.substring(1, link.length() - 1); }  (details = decoration() { if(!details[0].isEmpty()) contents[0] = details[0]; if(!details[1].isEmpty()) contents[1] = details[1]; })*
         { return contents; }
     }
 
@@ -151,8 +150,8 @@ String text():
         String text;
     }
     {
-        "WITH" "TEXT" <QUOTE> text = sentence() <QUOTE>
-        { return text; }
+        "WITH" "TEXT" text = sentence()
+        { return text.substring(1, text.length() - 1); }
     }
 
 String color():
@@ -160,8 +159,8 @@ String color():
         String color;
     }
     {
-        "WITH" "COLOR" <QUOTE> color = sentence() <QUOTE>
-        { return color; }
+        "WITH" "COLOR" color = sentence()
+        { return color.substring(1, color.length() - 1); }
     }
 
 String font():
@@ -169,8 +168,8 @@ String font():
         String font;
     }
     {
-        "WITH" "FONT" <QUOTE> font = sentence() <QUOTE>
-        { return font; }
+        "WITH" "FONT" font = sentence()
+        { return font.substring(1, font.length() - 1); }
     }
 
 String sentence():
@@ -179,8 +178,7 @@ String sentence():
         String res = "";
     }
     {
-        (token = <ALPHANUMERIC>{ res += token.image; })*
-        { return res; }
+        token = <SENTENCE> { res = token.image; return res; }
     }
 
 

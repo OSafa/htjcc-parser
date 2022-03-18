@@ -9,9 +9,7 @@ public interface HypertextConstants {
   /** End of File. */
   int EOF = 0;
   /** RegularExpression Id. */
-  int QUOTE = 16;
-  /** RegularExpression Id. */
-  int ALPHANUMERIC = 17;
+  int SENTENCE = 16;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -34,8 +32,7 @@ public interface HypertextConstants {
     "\"TEXT\"",
     "\"COLOR\"",
     "\"FONT\"",
-    "<QUOTE>",
-    "<ALPHANUMERIC>",
+    "<SENTENCE>",
   };
 
 }

@@ -82,10 +82,8 @@ html += nextLine;
     jj_consume_token(6);
     jj_consume_token(7);
     jj_consume_token(8);
-    jj_consume_token(QUOTE);
     src = sentence();
-    jj_consume_token(QUOTE);
-tag += src + "\" />"; {if ("" != null) return tag;}
+tag += src.substring(1, src.length() - 1) + "\" />"; {if ("" != null) return tag;}
     throw new Error("Missing return statement in function");
 }
 
@@ -150,7 +148,7 @@ contents[1] = font;
       }
       jj_consume_token(12);
       details = decoratedText();
-for(int i = 0; i < 3; i++){ if(details[i] != "") { contents[i] = details[i]; } }
+for(int i = 0; i < 3; i++){ if(!details[i].isEmpty()) { contents[i] = details[i]; } }
     }
 {if ("" != null) return contents;}
     throw new Error("Missing return statement in function");
@@ -167,10 +165,8 @@ contents[2] = text;
     jj_consume_token(12);
     jj_consume_token(7);
     jj_consume_token(11);
-    jj_consume_token(QUOTE);
     link = sentence();
-contents[3] = link;
-    jj_consume_token(QUOTE);
+contents[3] = link.substring(1, link.length() - 1);
     label_2:
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
@@ -227,50 +223,31 @@ if(!details[0].isEmpty()) contents[0] = details[0]; if(!details[1].isEmpty()) co
   final public String text() throws ParseException {String text;
     jj_consume_token(7);
     jj_consume_token(13);
-    jj_consume_token(QUOTE);
     text = sentence();
-    jj_consume_token(QUOTE);
-{if ("" != null) return text;}
+{if ("" != null) return text.substring(1, text.length() - 1);}
     throw new Error("Missing return statement in function");
 }
 
   final public String color() throws ParseException {String color;
     jj_consume_token(7);
     jj_consume_token(14);
-    jj_consume_token(QUOTE);
     color = sentence();
-    jj_consume_token(QUOTE);
-{if ("" != null) return color;}
+{if ("" != null) return color.substring(1, color.length() - 1);}
     throw new Error("Missing return statement in function");
 }
 
   final public String font() throws ParseException {String font;
     jj_consume_token(7);
     jj_consume_token(15);
-    jj_consume_token(QUOTE);
     font = sentence();
-    jj_consume_token(QUOTE);
-{if ("" != null) return font;}
+{if ("" != null) return font.substring(1, font.length() - 1);}
     throw new Error("Missing return statement in function");
 }
 
   final public String sentence() throws ParseException {Token token;
         String res = "";
-    label_4:
-    while (true) {
-      switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
-      case ALPHANUMERIC:{
-        ;
-        break;
-        }
-      default:
-        jj_la1[5] = jj_gen;
-        break label_4;
-      }
-      token = jj_consume_token(ALPHANUMERIC);
-res += token.image;
-    }
-{if ("" != null) return res;}
+    token = jj_consume_token(SENTENCE);
+res = token.image; {if ("" != null) return res;}
     throw new Error("Missing return statement in function");
 }
 
@@ -317,11 +294,11 @@ res += token.image;
   private boolean jj_3_5()
  {
     if (jj_scan_token(12)) return true;
-    if (jj_3R_decoration_145_9_8()) return true;
+    if (jj_3R_decoration_144_9_7()) return true;
     return false;
   }
 
-  private boolean jj_3R_font_172_9_11()
+  private boolean jj_3R_font_171_9_10()
  {
     if (jj_scan_token(7)) return true;
     return false;
@@ -329,34 +306,34 @@ res += token.image;
 
   private boolean jj_3_2()
  {
-    if (jj_3R_color_163_9_6()) return true;
+    if (jj_3R_color_162_9_5()) return true;
     return false;
   }
 
   private boolean jj_3_4()
  {
-    if (jj_3R_color_163_9_6()) return true;
+    if (jj_3R_color_162_9_5()) return true;
     return false;
   }
 
-  private boolean jj_3R_decoration_145_9_8()
+  private boolean jj_3R_decoration_144_9_7()
  {
     Token xsp;
     xsp = jj_scanpos;
     if (jj_3_4()) {
     jj_scanpos = xsp;
-    if (jj_3R_decoration_145_66_10()) return true;
+    if (jj_3R_decoration_144_66_9()) return true;
     }
     return false;
   }
 
   private boolean jj_3_1()
  {
-    if (jj_3R_text_154_9_5()) return true;
+    if (jj_3R_text_153_9_4()) return true;
     return false;
   }
 
-  private boolean jj_3R_decoratedText_119_9_7()
+  private boolean jj_3R_decoratedText_118_9_6()
  {
     Token xsp;
     xsp = jj_scanpos;
@@ -364,39 +341,39 @@ res += token.image;
     jj_scanpos = xsp;
     if (jj_3_2()) {
     jj_scanpos = xsp;
-    if (jj_3R_decoratedText_119_119_9()) return true;
+    if (jj_3R_decoratedText_118_119_8()) return true;
     }
     }
     return false;
   }
 
-  private boolean jj_3R_color_163_9_6()
+  private boolean jj_3R_color_162_9_5()
  {
     if (jj_scan_token(7)) return true;
     if (jj_scan_token(14)) return true;
     return false;
   }
 
-  private boolean jj_3R_decoratedText_119_119_9()
+  private boolean jj_3R_decoratedText_118_119_8()
  {
-    if (jj_3R_font_172_9_11()) return true;
+    if (jj_3R_font_171_9_10()) return true;
     return false;
   }
 
-  private boolean jj_3R_decoration_145_66_10()
+  private boolean jj_3R_decoration_144_66_9()
  {
-    if (jj_3R_font_172_9_11()) return true;
+    if (jj_3R_font_171_9_10()) return true;
     return false;
   }
 
   private boolean jj_3_3()
  {
     if (jj_scan_token(12)) return true;
-    if (jj_3R_decoratedText_119_9_7()) return true;
+    if (jj_3R_decoratedText_118_9_6()) return true;
     return false;
   }
 
-  private boolean jj_3R_text_154_9_5()
+  private boolean jj_3R_text_153_9_4()
  {
     if (jj_scan_token(7)) return true;
     if (jj_scan_token(13)) return true;
@@ -414,13 +391,13 @@ res += token.image;
   private Token jj_scanpos, jj_lastpos;
   private int jj_la;
   private int jj_gen;
-  final private int[] jj_la1 = new int[6];
+  final private int[] jj_la1 = new int[5];
   static private int[] jj_la1_0;
   static {
 	   jj_la1_init_0();
 	}
 	private static void jj_la1_init_0() {
-	   jj_la1_0 = new int[] {0x21,0xe40,0x80,0x80,0x80,0x20000,};
+	   jj_la1_0 = new int[] {0x21,0xe40,0x80,0x80,0x80,};
 	}
   final private JJCalls[] jj_2_rtns = new JJCalls[5];
   private boolean jj_rescan = false;
@@ -437,7 +414,7 @@ res += token.image;
 	 token = new Token();
 	 jj_ntk = -1;
 	 jj_gen = 0;
-	 for (int i = 0; i < 6; i++) jj_la1[i] = -1;
+	 for (int i = 0; i < 5; i++) jj_la1[i] = -1;
 	 for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -452,7 +429,7 @@ res += token.image;
 	 token = new Token();
 	 jj_ntk = -1;
 	 jj_gen = 0;
-	 for (int i = 0; i < 6; i++) jj_la1[i] = -1;
+	 for (int i = 0; i < 5; i++) jj_la1[i] = -1;
 	 for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -463,7 +440,7 @@ res += token.image;
 	 token = new Token();
 	 jj_ntk = -1;
 	 jj_gen = 0;
-	 for (int i = 0; i < 6; i++) jj_la1[i] = -1;
+	 for (int i = 0; i < 5; i++) jj_la1[i] = -1;
 	 for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -482,7 +459,7 @@ res += token.image;
 	 token = new Token();
 	 jj_ntk = -1;
 	 jj_gen = 0;
-	 for (int i = 0; i < 6; i++) jj_la1[i] = -1;
+	 for (int i = 0; i < 5; i++) jj_la1[i] = -1;
 	 for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -492,7 +469,7 @@ res += token.image;
 	 token = new Token();
 	 jj_ntk = -1;
 	 jj_gen = 0;
-	 for (int i = 0; i < 6; i++) jj_la1[i] = -1;
+	 for (int i = 0; i < 5; i++) jj_la1[i] = -1;
 	 for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -502,7 +479,7 @@ res += token.image;
 	 token = new Token();
 	 jj_ntk = -1;
 	 jj_gen = 0;
-	 for (int i = 0; i < 6; i++) jj_la1[i] = -1;
+	 for (int i = 0; i < 5; i++) jj_la1[i] = -1;
 	 for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -633,12 +610,12 @@ res += token.image;
   /** Generate ParseException. */
   public ParseException generateParseException() {
 	 jj_expentries.clear();
-	 boolean[] la1tokens = new boolean[18];
+	 boolean[] la1tokens = new boolean[17];
 	 if (jj_kind >= 0) {
 	   la1tokens[jj_kind] = true;
 	   jj_kind = -1;
 	 }
-	 for (int i = 0; i < 6; i++) {
+	 for (int i = 0; i < 5; i++) {
 	   if (jj_la1[i] == jj_gen) {
 		 for (int j = 0; j < 32; j++) {
 		   if ((jj_la1_0[i] & (1<<j)) != 0) {
@@ -647,7 +624,7 @@ res += token.image;
 		 }
 	   }
 	 }
-	 for (int i = 0; i < 18; i++) {
+	 for (int i = 0; i < 17; i++) {
 	   if (la1tokens[i]) {
 		 jj_expentry = new int[1];
 		 jj_expentry[0] = i;
