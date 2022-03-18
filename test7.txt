@@ -1,1 +1,0 @@
-ADD HEADING WITH TEXT "Hello World" AND WITH COLOR "Red"
