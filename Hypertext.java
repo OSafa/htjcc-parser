@@ -9,14 +9,16 @@
         private static String stringifyStyle(String[] parameters) {
             String res = "";
             if(!parameters[0].isEmpty()) {
-                res += "style=\"color:" + parameters[0] + ";";
+                res += " style=\"color:" + parameters[0] + ";";
                 if(!parameters[1].isEmpty()) {
                     res += "font-family:" + parameters[1] + ";";
                 }
                 res += "\" >";
             }
             if(!parameters[1].isEmpty()) {
-                res += "style=\"font-family:" + parameters[1] + ";\">";
+                res += " style=\"font-family:" + parameters[1] + ";\">";
+            } else {
+                res += ">";
             }
             res += parameters[2];
             return res;
@@ -87,7 +89,7 @@ tag += src + "\" />"; {if ("" != null) return tag;}
     throw new Error("Missing return statement in function");
 }
 
-  final public String header() throws ParseException {String tag = "<h1 ";
+  final public String header() throws ParseException {String tag = "<h1";
         String contents[];
     jj_consume_token(9);
     contents = decoratedText();
@@ -315,11 +317,11 @@ res += token.image;
   private boolean jj_3_5()
  {
     if (jj_scan_token(12)) return true;
-    if (jj_3R_decoration_143_9_8()) return true;
+    if (jj_3R_decoration_145_9_8()) return true;
     return false;
   }
 
-  private boolean jj_3R_font_170_9_11()
+  private boolean jj_3R_font_172_9_11()
  {
     if (jj_scan_token(7)) return true;
     return false;
@@ -327,34 +329,34 @@ res += token.image;
 
   private boolean jj_3_2()
  {
-    if (jj_3R_color_161_9_6()) return true;
+    if (jj_3R_color_163_9_6()) return true;
     return false;
   }
 
   private boolean jj_3_4()
  {
-    if (jj_3R_color_161_9_6()) return true;
+    if (jj_3R_color_163_9_6()) return true;
     return false;
   }
 
-  private boolean jj_3R_decoration_143_9_8()
+  private boolean jj_3R_decoration_145_9_8()
  {
     Token xsp;
     xsp = jj_scanpos;
     if (jj_3_4()) {
     jj_scanpos = xsp;
-    if (jj_3R_decoration_143_66_10()) return true;
+    if (jj_3R_decoration_145_66_10()) return true;
     }
     return false;
   }
 
   private boolean jj_3_1()
  {
-    if (jj_3R_text_152_9_5()) return true;
+    if (jj_3R_text_154_9_5()) return true;
     return false;
   }
 
-  private boolean jj_3R_decoratedText_117_9_7()
+  private boolean jj_3R_decoratedText_119_9_7()
  {
     Token xsp;
     xsp = jj_scanpos;
@@ -362,39 +364,39 @@ res += token.image;
     jj_scanpos = xsp;
     if (jj_3_2()) {
     jj_scanpos = xsp;
-    if (jj_3R_decoratedText_117_119_9()) return true;
+    if (jj_3R_decoratedText_119_119_9()) return true;
     }
     }
     return false;
   }
 
-  private boolean jj_3R_color_161_9_6()
+  private boolean jj_3R_color_163_9_6()
  {
     if (jj_scan_token(7)) return true;
     if (jj_scan_token(14)) return true;
     return false;
   }
 
-  private boolean jj_3R_decoratedText_117_119_9()
+  private boolean jj_3R_decoratedText_119_119_9()
  {
-    if (jj_3R_font_170_9_11()) return true;
+    if (jj_3R_font_172_9_11()) return true;
     return false;
   }
 
-  private boolean jj_3R_decoration_143_66_10()
+  private boolean jj_3R_decoration_145_66_10()
  {
-    if (jj_3R_font_170_9_11()) return true;
+    if (jj_3R_font_172_9_11()) return true;
     return false;
   }
 
   private boolean jj_3_3()
  {
     if (jj_scan_token(12)) return true;
-    if (jj_3R_decoratedText_117_9_7()) return true;
+    if (jj_3R_decoratedText_119_9_7()) return true;
     return false;
   }
 
-  private boolean jj_3R_text_152_9_5()
+  private boolean jj_3R_text_154_9_5()
  {
     if (jj_scan_token(7)) return true;
     if (jj_scan_token(13)) return true;
